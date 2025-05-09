@@ -16,14 +16,10 @@ export const useBehaviors = () => {
     try {
       setLoading(true);
       setError(null);
-      console.log('Fetching behaviors...');
       const res = await axios.get('/behaviors');
-      console.log('Behaviors response:', res.data);
-      const fetchedBehaviors = res.data.data || [];
-      setBehaviors(fetchedBehaviors);
-      return fetchedBehaviors;
+      setBehaviors(res.data.data);
+      return res.data.data;
     } catch (err) {
-      console.error('Error fetching behaviors:', err);
       setError(err.response?.data?.error || 'Error fetching behaviors');
       toast.error('Failed to fetch behaviors');
       throw err;
@@ -37,14 +33,10 @@ export const useBehaviors = () => {
     try {
       setLoading(true);
       setError(null);
-      console.log('Fetching top behaviors...');
       const res = await axios.get('/behaviors/top');
-      console.log('Top behaviors response:', res.data);
-      const fetchedTopBehaviors = res.data.data || [];
-      setTopBehaviors(fetchedTopBehaviors);
-      return fetchedTopBehaviors;
+      setTopBehaviors(res.data.data);
+      return res.data.data;
     } catch (err) {
-      console.error('Error fetching top behaviors:', err);
       setError(err.response?.data?.error || 'Error fetching top behaviors');
       toast.error('Failed to fetch top behaviors');
       throw err;
@@ -58,14 +50,10 @@ export const useBehaviors = () => {
     try {
       setLoading(true);
       setError(null);
-      console.log(`Fetching behavior with ID: ${id}`);
       const res = await axios.get(`/behaviors/${id}`);
-      console.log('Behavior response:', res.data);
-      const fetchedBehavior = res.data.data;
-      setCurrentBehavior(fetchedBehavior);
-      return fetchedBehavior;
+      setCurrentBehavior(res.data.data);
+      return res.data.data;
     } catch (err) {
-      console.error(`Error fetching behavior with ID ${id}:`, err);
       setError(err.response?.data?.error || 'Error fetching behavior');
       toast.error('Failed to fetch behavior details');
       throw err;
@@ -79,15 +67,11 @@ export const useBehaviors = () => {
     try {
       setLoading(true);
       setError(null);
-      console.log('Creating behavior with data:', behaviorData);
       const res = await axios.post('/behaviors', behaviorData);
-      console.log('Create behavior response:', res.data);
-      const newBehavior = res.data.data;
-      setBehaviors([...behaviors, newBehavior]);
+      setBehaviors([...behaviors, res.data.data]);
       toast.success('Behavior created successfully');
-      return newBehavior;
+      return res.data.data;
     } catch (err) {
-      console.error('Error creating behavior:', err);
       setError(err.response?.data?.error || 'Error creating behavior');
       toast.error('Failed to create behavior');
       throw err;
@@ -101,25 +85,18 @@ export const useBehaviors = () => {
     try {
       setLoading(true);
       setError(null);
-      console.log(`Updating behavior with ID ${id} with data:`, behaviorData);
       const res = await axios.put(`/behaviors/${id}`, behaviorData);
-      console.log('Update behavior response:', res.data);
-      const updatedBehavior = res.data.data;
-      
       setBehaviors(
         behaviors.map((behavior) =>
-          behavior._id === id ? updatedBehavior : behavior
+          behavior._id === id ? res.data.data : behavior
         )
       );
-      
       if (currentBehavior && currentBehavior._id === id) {
-        setCurrentBehavior(updatedBehavior);
+        setCurrentBehavior(res.data.data);
       }
-      
       toast.success('Behavior updated successfully');
-      return updatedBehavior;
+      return res.data.data;
     } catch (err) {
-      console.error(`Error updating behavior with ID ${id}:`, err);
       setError(err.response?.data?.error || 'Error updating behavior');
       toast.error('Failed to update behavior');
       throw err;
@@ -133,20 +110,14 @@ export const useBehaviors = () => {
     try {
       setLoading(true);
       setError(null);
-      console.log(`Deleting behavior with ID: ${id}`);
       await axios.delete(`/behaviors/${id}`);
-      console.log('Behavior deleted successfully');
-      
       setBehaviors(behaviors.filter((behavior) => behavior._id !== id));
-      
       if (currentBehavior && currentBehavior._id === id) {
         setCurrentBehavior(null);
       }
-      
       toast.success('Behavior deleted successfully');
       return true;
     } catch (err) {
-      console.error(`Error deleting behavior with ID ${id}:`, err);
       setError(err.response?.data?.error || 'Error deleting behavior');
       toast.error('Failed to delete behavior');
       throw err;

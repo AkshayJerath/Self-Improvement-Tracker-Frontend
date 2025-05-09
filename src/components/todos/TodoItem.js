@@ -16,7 +16,7 @@ export default function TodoItem({ todo, behaviorColor }) {
       setIsSubmitting(true);
       await toggleTodo(todo._id);
     } catch (error) {
-      console.error('Error toggling todo:', error);
+      console.error('Error toggling to do:', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -35,7 +35,7 @@ export default function TodoItem({ todo, behaviorColor }) {
           setIsSubmitting(true);
           await updateTodo(todo._id, { text: editText });
         } catch (error) {
-          console.error('Error updating todo:', error);
+          console.error('Error updating to do:', error);
           setEditText(todo.text);
         } finally {
           setIsSubmitting(false);
@@ -53,7 +53,7 @@ export default function TodoItem({ todo, behaviorColor }) {
         setIsDeleting(true);
         await deleteTodo(todo._id);
       } catch (error) {
-        console.error('Error deleting todo:', error);
+        console.error('Error deleting to do:', error);
       } finally {
         setIsDeleting(false);
         setShowConfirmation(false);

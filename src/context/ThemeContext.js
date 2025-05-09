@@ -1,12 +1,13 @@
 'use client';
 
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 import axios from '@/lib/axios';
 import Cookies from 'js-cookie';
+import themeUtils from '@/utils/theme';
 
-export const ThemeContext = createContext();
+const ThemeContext = createContext(undefined);
 
-export const ThemeProvider = ({ children }) => {
+export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState('light');
   const [loading, setLoading] = useState(true);
 
@@ -16,7 +17,7 @@ export const ThemeProvider = ({ children }) => {
     
     if (savedTheme) {
       setTheme(savedTheme);
-      applyTheme(savedTheme);
+      themeUtils.applyTheme(savedTheme);
     } else {
       // Check for user preference in API if logged in
       const token = Cookies.get('accessToken');
@@ -38,7 +39,7 @@ export const ThemeProvider = ({ children }) => {
         const userTheme = res.data.data.preferences.theme;
         setTheme(userTheme);
         Cookies.set('theme', userTheme, { expires: 365 });
-        applyTheme(userTheme);
+        themeUtils.applyTheme(userTheme);
       } else {
         checkSystemPreference();
       }
@@ -55,7 +56,7 @@ export const ThemeProvider = ({ children }) => {
         : 'light';
       setTheme(systemTheme);
       Cookies.set('theme', systemTheme, { expires: 365 });
-      applyTheme(systemTheme);
+      themeUtils.applyTheme(systemTheme);
     }
   };
 
@@ -63,7 +64,7 @@ export const ThemeProvider = ({ children }) => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     Cookies.set('theme', newTheme, { expires: 365 });
-    applyTheme(newTheme);
+    themeUtils.applyTheme(newTheme);
     
     // Update user preference if logged in
     const token = Cookies.get('accessToken');
@@ -72,16 +73,6 @@ export const ThemeProvider = ({ children }) => {
         await axios.put('/auth/preferences', { theme: newTheme });
       } catch (error) {
         console.error('Error updating theme preference:', error);
-      }
-    }
-  };
-
-  const applyTheme = (selectedTheme) => {
-    if (typeof document !== 'undefined') {
-      if (selectedTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
       }
     }
   };
@@ -97,4 +88,16 @@ export const ThemeProvider = ({ children }) => {
       {children}
     </ThemeContext.Provider>
   );
-};
+}
+
+export function useTheme() {
+  const context = useContext(ThemeContext);
+
+  if (context === undefined) {
+    throw new Error('useTheme must be used within a ThemeProvider');
+  }
+
+  return context;
+}
+
+export { ThemeContext };

@@ -126,7 +126,7 @@ export default function StatsPage() {
     labels: streak?.dailyCompletions?.map(day => day._id) || [],
     datasets: [
       {
-        label: 'Completed Todos',
+        label: 'Completed To dos',
         data: streak?.dailyCompletions?.map(day => day.count) || [],
         fill: true,
         backgroundColor: 'rgba(14, 165, 233, 0.2)',
@@ -243,7 +243,7 @@ export default function StatsPage() {
           </div>
         ) : (
           <p className="text-gray-500 dark:text-gray-400 py-6 text-center">
-            No activity data available yet. Complete more todos to see your activity over time.
+              No activity data available yet. Complete more to do's to see your activity over time.
           </p>
         )}
       </div>

@@ -13,7 +13,7 @@ export default function TodoForm({ behaviorId, behaviorColor }) {
     e.preventDefault();
     
     if (!text.trim()) {
-      setError('Todo text is required');
+      setError('To do text is required');
       return;
     }
     
@@ -23,7 +23,7 @@ export default function TodoForm({ behaviorId, behaviorColor }) {
       await addTodo(behaviorId, { text });
       setText('');
     } catch (err) {
-      setError(err.response?.data?.error || 'Error adding todo');
+      setError(err.response?.data?.error || 'Error adding to do');
     } finally {
       setIsSubmitting(false);
     }

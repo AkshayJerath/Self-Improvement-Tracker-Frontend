@@ -150,7 +150,7 @@ export default function BehaviorDetailPage({ params }) {
       )}
 
       <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
-        Todo Items
+        To do Items
       </h2>
       
       <TodoList behaviorId={id} behaviorColor={currentBehavior.color} />

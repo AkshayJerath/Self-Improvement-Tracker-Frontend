@@ -18,8 +18,8 @@ export const useTodos = () => {
       setTodos(res.data.data);
       return res.data.data;
     } catch (err) {
-      setError(err.response?.data?.error || 'Error fetching todos');
-      toast.error('Failed to fetch todos');
+      setError(err.response?.data?.error || 'Error fetching to dos');
+      toast.error('Failed to fetch to dos');
       throw err;
     } finally {
       setLoading(false);
@@ -33,11 +33,11 @@ export const useTodos = () => {
       setError(null);
       const res = await axios.post(`/behaviors/${behaviorId}/todos`, todoData);
       setTodos([res.data.data, ...todos]);
-      toast.success('Todo added successfully');
+      toast.success('To do added successfully');
       return res.data.data;
     } catch (err) {
-      setError(err.response?.data?.error || 'Error adding todo');
-      toast.error('Failed to add todo');
+      setError(err.response?.data?.error || 'Error adding to do');
+      toast.error('Failed to add to do');
       throw err;
     } finally {
       setLoading(false);
@@ -56,8 +56,8 @@ export const useTodos = () => {
       toast.success('Todo updated successfully');
       return res.data.data;
     } catch (err) {
-      setError(err.response?.data?.error || 'Error updating todo');
-      toast.error('Failed to update todo');
+      setError(err.response?.data?.error || 'Error updating to do');
+      toast.error('Failed to update to do');
       throw err;
     } finally {
       setLoading(false);
@@ -77,7 +77,7 @@ export const useTodos = () => {
       return res.data.data;
     } catch (err) {
       setError(err.response?.data?.error || 'Error toggling todo');
-      toast.error('Failed to update todo status');
+      toast.error('Failed to update to do status');
       throw err;
     } finally {
       setLoading(false);
@@ -91,11 +91,11 @@ export const useTodos = () => {
       setError(null);
       await axios.delete(`/todos/${id}`);
       setTodos(todos.filter((todo) => todo._id !== id));
-      toast.success('Todo deleted successfully');
+      toast.success('To do deleted successfully');
       return true;
     } catch (err) {
-      setError(err.response?.data?.error || 'Error deleting todo');
-      toast.error('Failed to delete todo');
+      setError(err.response?.data?.error || 'Error deleting to do');
+      toast.error('Failed to delete to do');
       throw err;
     } finally {
       setLoading(false);
